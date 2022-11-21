@@ -786,5 +786,8 @@ select * from tbItemVenda;
 select * from tbProduto;
 
 select tbBairro.Bairro from tbBairro
-right join tbCliente right join tbEndereco right join tbItemVenda right join tbVenda
-on tbCliente.CEP = tbEndereco.CEP and tbBairro.IdBairro = tbEndereco.IdBairro and tbVenda.IdCli = tbCliente.IdCli and tbVenda.CodigoVenda = tbItemVenda.CodigoBarras where tbItemVenda.CodigoBarras is null and tbItemVenda.NumeroVenda is null;
+inner join tbCliente inner join tbEndereco inner join tbItemVenda inner join tbVenda
+on tbCliente.CEPCli = tbEndereco.CEP and tbBairro.IdBairro = tbEndereco.IdBairro and tbVenda.IdCli = tbCliente.IdCli and tbVenda.CodigoVenda = tbItemVenda.CodigoBarras where tbItemVenda.CodigoBarras is null and tbItemVenda.CodigoVenda is null;
+
+-- Exercício 4
+
