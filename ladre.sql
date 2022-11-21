@@ -1,6 +1,6 @@
 -- drop database dbteste;
-create database dbteste;
-use dbteste;
+create  database dbladre;
+use dbladre;
 
 CREATE TABLE tbCliente(
 	IdCli INT PRIMARY KEY AUTO_INCREMENT,
@@ -789,5 +789,50 @@ select tbBairro.Bairro from tbBairro
 inner join tbCliente inner join tbEndereco inner join tbItemVenda inner join tbVenda
 on tbCliente.CEPCli = tbEndereco.CEP and tbBairro.IdBairro = tbEndereco.IdBairro and tbVenda.IdCli = tbCliente.IdCli and tbVenda.CodigoVenda = tbItemVenda.CodigoBarras where tbItemVenda.CodigoBarras is null and tbItemVenda.CodigoVenda is null;
 
--- Exercício 4
+-- Exercício 44
 
+create View vw_Fornec as select idFornecedor as 'Código', NomeFornecedor as 'Fornecedor', Telefone as 'Telefone' from tbfornecedor;
+
+select * from vw_fornec;
+
+-- Exercício 45
+
+select Fornecedor as 'Nome', Telefone from vw_fornec;
+
+-- Exercício 46
+
+create view vw_PessoJuri as select tbCliente.idCli, NomeCLI, CEPCli, Logradouro, NumEnd, CompEnd, Bairro, Cidade, UF from 
+tbCLiente inner join tbEndereco inner join tbBairro inner join tbCidade inner join tbUF inner join tbClientepj on
+tbCliente.CepCli = tbEndereco.CEP and tbEndereco.IdBairro = tbBairro.IdBairro and tbCidade.IdCidade = tbEndereco.IdCidade and tbUf.IdUf = tbEndereco.IdUF and tbCLientepj.IdCli = tbCliente.IdCli
+where IE is not null;
+
+select * from vw_PessoJuri;
+
+-- Exercício 47
+
+select idCli as 'Código', NomeCli as 'Cliente', CEPCLI as 'CEP', Logradouro as 'Endereço', NumEnd as 'Número', compEnd as 'Complemento', Bairro as 'Bairro', Cidade, UF from vw_PessoJuri;
+
+-- Exercício 48
+
+create view vw_PessoFis as select tbCliente.idCli, NomeCLI, CPF, RG, RG_DIG, Nasc, CEPCli, Logradouro, NumEnd, CompEnd, Bairro, Cidade, UF from 
+tbCLiente inner join tbEndereco inner join tbBairro inner join tbCidade inner join tbUF inner join tbClientepf on
+tbCliente.CepCli = tbEndereco.CEP and tbEndereco.IdBairro = tbBairro.IdBairro and tbCidade.IdCidade = tbEndereco.IdCidade and tbUf.IdUf = tbEndereco.IdUF and tbCLientepf.IdCli = tbCliente.IdCli
+where CPF is not null;
+
+-- Exercício 49 
+
+select 
+select idCli as 'Código', NomeCli as 'Cliente', CPF, RG, RG_Dig as 'Dig', Nasc as 'Nascimento' from vw_PessoFis;
+
+-- Exercício 50
+
+create or replace view vw_PessoJuri as select tbCliente.idCli, NomeCLI, CNPJ, IE, CEPCli, Logradouro, NumEnd, CompEnd, Bairro, Cidade, UF from 
+tbCLiente inner join tbEndereco inner join tbBairro inner join tbCidade inner join tbUF inner join tbClientepj on
+tbCliente.CepCli = tbEndereco.CEP and tbEndereco.IdBairro = tbBairro.IdBairro and tbCidade.IdCidade = tbEndereco.IdCidade and tbUf.IdUf = tbEndereco.IdUF and tbCLientepj.IdCli = tbCliente.IdCli
+where IE is not null;
+
+select * from vw_PessoJuri;
+
+-- Exercício 51
+
+select IdCli, NomeCli, CEPCLI, Logradouro, NumEnd, CompEnd, Bairro, Cidade, UF  from vw_PessoJuri  union select IdCli, NomeCli, CEPCLI, Logradouro, NumEnd, CompEnd, Bairro, Cidade, UF from vw_PessoFis;
